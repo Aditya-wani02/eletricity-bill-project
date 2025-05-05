@@ -11,16 +11,10 @@ document.getElementById("registrationForm").addEventListener("submit", function(
         return;
     }
 
-    // Generate a unique 13-digit customer ID using timestamp and random digits
-    const timestamp = Date.now().toString();
-    const randomDigits = Math.floor(100 + Math.random() * 900).toString();
-    const randomCustomerId = timestamp.slice(0, 10) + randomDigits;
+    // Generate a random 5-digit customer ID
+    const randomCustomerId = Math.floor(10000 + Math.random() * 90000).toString();
 
-    document.getElementById("success").innerHTML =
-        `<p style='color:green;'>Consumer Registration successful.</p>
-         <p><strong>Customer ID:</strong> ${randomCustomerId}</p>
-         <p><strong>Customer Name:</strong> ${name}</p>
-         <p><strong>Email:</strong> ${email}</p>`;
-
-    document.getElementById("registrationForm").reset();
+    // Redirect to success.html with query parameters
+    const successUrl = `success.html?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&id=${randomCustomerId}`;
+    window.location.href = successUrl;
 });

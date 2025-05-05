@@ -5,11 +5,20 @@ body {
     background: url('assets/registrationpage/background.png') no-repeat center center fixed;
     background-size: cover;
 }
-header, footer {
+header {
     background-color: #003366;
     color: white;
     text-align: center;
     padding: 15px 0;
+}
+footer {
+    background-color: #003366;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    width: 100%;
+    position: relative;
+    bottom: 0;
 }
 .navbar {
     position: sticky;
@@ -48,4 +57,44 @@ input, select {
     color: green;
     margin-top: 20px;
     font-weight: bold;
+}
+
+.required::after {
+content: " *";
+color: red;
+}
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Wrapper grows to push footer down */
+.content-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Optional: center your form vertically */
+}
+
+/* .container remains naturally sized */
+.container {
+    width: 100%;
+    max-width: 500px;
+    padding: 2rem;
+}
+
+/* Footer at bottom */
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    width: 100%;
 }
