@@ -15,17 +15,18 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand d-flex align-items-center" href="#">
-          <img src="assets/registrationpage/logo.png" alt="Logo" style="height: 40px;">
+          <img src="assets/registrationpage/logo.png" alt="Logo" width="40">
           <span class="ms-2">Tbillz</span>
         </a>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-            <li class="nav-item"><a class="nav-link active" href="#">Pay Bill</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Register Complaint</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Complaint Status</a></li>
-            <li class="nav-item"><span class="nav-link">Welcome, <strong id="username">User</strong></span></li>
-            <li class="nav-item"><button class="btn btn-sm btn-outline-light ms-2" onclick="logout()">Logout</button></li>
+            <li class="nav-item"><a class="nav-link active" href="landing.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="payment.html">Payment</a></li>
+            <li class="nav-item"><a class="nav-link" href="complainstatus.html">Complain Status</a></li>
+            <li class="nav-item">
+              <li class="nav-item"><button class="btn btn-sm btn-danger ms-2" onclick="logout()">Logout</button></li>
+
+            </li>
           </ul>
         </div>
       </div>
@@ -61,6 +62,7 @@
   </div>
 
   <!-- Card Details Form -->
+  <div class="content-wrapper">
   <div class="container my-5 d-none" id="cardForm">
     <h3 class="mb-4">Enter Card Details</h3>
     <form id="cardDetailsForm">
@@ -83,6 +85,7 @@
       <button type="submit" class="btn btn-success">Make Payment</button>
     </form>
   </div>
+    </div>
 
   <!-- Payment Success -->
   <div class="container my-5 d-none" id="successMessage">
@@ -92,8 +95,8 @@
   </div>
 
   <!-- Footer -->
-  <footer class="text-center py-3 bg-dark text-white">
-    <p>&copy; 2025 Tbillz. All rights reserved.</p>
+   <footer>
+    <p>&copy; 2025 Consumer Services. All rights reserved.</p>
   </footer>
 
   <!-- JavaScript -->
@@ -104,7 +107,7 @@
     }
 
     function goHome() {
-      window.location.href = "index.html";
+      window.location.href = "dashboard.html";
     }
 
     function showCardForm() {

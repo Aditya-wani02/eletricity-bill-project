@@ -26,13 +26,16 @@
 
 
     <script>
-        // Get URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-
-        // Set values from URL params
-        document.getElementById('customerId').innerText = urlParams.get('userId');
-        document.getElementById('customerName').innerText = urlParams.get('customerName');
-        document.getElementById('mobileNumber').innerText = urlParams.get('mobileNumber');
-    </script>
+        // Get current logged-in user from localStorage
+        const currentUserId = localStorage.getItem("currentUser");
+        if (currentUserId) {
+          const userData = JSON.parse(localStorage.getItem(currentUserId));
+          if (userData) {
+            document.getElementById('customerId').innerText = userData.customerId;
+            document.getElementById('customerName').innerText = userData.customerName;
+            document.getElementById('mobileNumber').innerText = userData.mobileNumber;
+          }
+        }
+      </script>
 </body>
 </html>

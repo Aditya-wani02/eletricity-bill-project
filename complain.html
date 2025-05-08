@@ -16,23 +16,24 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand d-flex align-items-center" href="#">
-          <img src="assets/registrationpage/logo.png" alt="Logo" style="height: 40px;">
+          <img src="assets/registrationpage/logo.png" alt="Logo" width="40">
           <span class="ms-2">Tbillz</span>
         </a>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Pay Bill</a></li>
-            <li class="nav-item"><a class="nav-link active" href="#">Register Complaint</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Complaint Status</a></li>
-            <li class="nav-item"><span class="nav-link">Welcome, <strong id="username">User</strong></span></li>
-            <li class="nav-item"><button class="btn btn-sm btn-outline-light ms-2" onclick="logout()">Logout</button></li>
+            <li class="nav-item"><a class="nav-link active" href="landing.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="payment.html">Payment</a></li>
+            <li class="nav-item"><a class="nav-link" href="complainstatus.html">Complain Status</a></li>
+            <li class="nav-item">
+              <li class="nav-item"><button class="btn btn-sm btn-danger ms-2" onclick="logout()">Logout</button></li>
+
+            </li>
           </ul>
         </div>
       </div>
     </nav>
   </header>
-
+  
   <!-- Complaint Form -->
   <div class="container my-5">
     <h3 class="mb-4">Register Complaint / Service</h3>
@@ -99,40 +100,84 @@
   </footer>
 
   <!-- JavaScript -->
-  <script>
-    const categoryMap = {
-      "Billing Related": ["Incorrect Charges", "Bill Not Received", "Overcharged"],
-      "Voltage Related": ["High Voltage", "Low Voltage"],
-      "Frequent Disruption": ["Daily Outages", "Weekend Issues"],
-      "Street Light Related": ["Light Not Working", "Flickering"],
-      "Pole Related": ["Damaged Pole", "Leaning Pole"]
+  <!-- 🧠 ONLY the improved <script> and UI enhancement parts are shown here -->
+<!-- Everything else in your code is already fine! -->
+
+<!-- Add styles for better form visibility -->
+<style>
+  #complaintForm {
+    border: 1px solid #ccc;
+    padding: 25px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+</style>
+
+<script>
+  // Predefined complaint categories based on type
+  const categoryMap = {
+    "Billing Related": ["Incorrect Charges", "Bill Not Received", "Overcharged"],
+    "Voltage Related": ["High Voltage", "Low Voltage"],
+    "Frequent Disruption": ["Daily Outages", "Weekend Issues"],
+    "Street Light Related": ["Light Not Working", "Flickering"],
+    "Pole Related": ["Damaged Pole", "Leaning Pole"]
+  };
+
+  // Populate category dropdown on type selection
+  document.getElementById("type").addEventListener("change", function () {
+    const selectedType = this.value;
+    const categorySelect = document.getElementById("category");
+    categorySelect.innerHTML = '<option value="">-- Select Category --</option>';
+
+    if (categoryMap[selectedType]) {
+      categoryMap[selectedType].forEach(cat => {
+        const option = document.createElement("option");
+        option.textContent = cat;
+        categorySelect.appendChild(option);
+      });
+    }
+  });
+
+  // Form submission handling
+  document.getElementById("complaintForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const complaintId = "CMP" + Math.floor(100000 + Math.random() * 900000);
+    alert(`Complaint submitted successfully.\nYour Complaint ID: ${complaintId}`);
+
+    // Optional: Save to localStorage for tracking
+    const complaintData = {
+      id: complaintId,
+      type: document.getElementById("type").value,
+      category: document.getElementById("category").value,
+      contactPerson: document.getElementById("contactPerson").value,
+      landmark: document.getElementById("landmark").value,
+      consumerNo: document.getElementById("consumerNo").value,
+      problem: document.getElementById("problem").value,
+      mobile: document.getElementById("mobile").value,
+      address: document.getElementById("address").value,
+      timestamp: new Date().toLocaleString()
     };
 
-    document.getElementById("type").addEventListener("change", function () {
-      const selectedType = this.value;
-      const categorySelect = document.getElementById("category");
-      categorySelect.innerHTML = '<option value="">-- Select Category --</option>';
+    let complaints = JSON.parse(localStorage.getItem("complaints")) || [];
+    complaints.push(complaintData);
+    localStorage.setItem("complaints", JSON.stringify(complaints));
 
-      if (categoryMap[selectedType]) {
-        categoryMap[selectedType].forEach(cat => {
-          const option = document.createElement("option");
-          option.textContent = cat;
-          categorySelect.appendChild(option);
-        });
-      }
-    });
+    this.reset();
+  });
 
-    document.getElementById("complaintForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const complaintId = "CMP" + Math.floor(100000 + Math.random() * 900000);
-      alert(`Complaint submitted successfully. Your ID: ${complaintId}`);
-      this.reset();
-    });
+  // Load username from localStorage
+  window.addEventListener("DOMContentLoaded", () => {
+    const userData = JSON.parse(localStorage.getItem("userData")) || {};
+    document.getElementById("username").textContent = userData.fullname || "User";
+  });
 
-    function logout() {
-      alert("Logged out successfully");
-      window.location.href = "landing.html";
-    }
-  </script>
+  // Logout function
+  function logout() {
+    alert("Logged out successfully.");
+    window.location.href = "landing.html";
+  }
+</script>
+
 </body>
 </html>
