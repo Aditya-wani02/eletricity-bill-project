@@ -25,7 +25,6 @@
             <li class="nav-item"><a class="nav-link" href="complainstatus.html">Complain Status</a></li>
             <li class="nav-item">
               <li class="nav-item"><button class="btn btn-sm btn-danger ms-2" onclick="logout()">Logout</button></li>
-
             </li>
           </ul>
         </div>
@@ -63,29 +62,30 @@
 
   <!-- Card Details Form -->
   <div class="content-wrapper">
-  <div class="container my-5 d-none" id="cardForm">
-    <h3 class="mb-4">Enter Card Details</h3>
-    <form id="cardDetailsForm">
-      <div class="mb-3">
-        <label class="form-label">Card Number</label>
-        <input type="text" class="form-control" id="cardNumber" minlength="16" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Card Holder Name</label>
-        <input type="text" class="form-control" id="cardHolder" minlength="10" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Expiry Date (MM/YY)</label>
-        <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">CVV</label>
-        <input type="password" class="form-control" id="cvv" minlength="3" required>
-      </div>
-      <button type="submit" class="btn btn-success">Make Payment</button>
-    </form>
-  </div>
+    <div class="container my-5 d-none" id="cardForm">
+      <h3 class="mb-4">Enter Card Details</h3>
+      <form id="cardDetailsForm">
+        <div class="mb-3">
+          <label class="form-label">Card Number</label>
+          <input type="text" class="form-control" id="cardNumber" maxlength="16" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Card Holder Name</label>
+          <input type="text" class="form-control" id="cardHolder" minlength="5" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Expiry Date</label>
+          <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" maxlength="5" required>
+          <small class="text-muted">Enter expiry in MMYY format</small>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">CVV</label>
+          <input type="password" class="form-control" id="cvv" maxlength="3" required>
+        </div>
+        <button type="submit" class="btn btn-success">Make Payment</button>
+      </form>
     </div>
+  </div>
 
   <!-- Payment Success -->
   <div class="container my-5 d-none" id="successMessage">
@@ -95,7 +95,7 @@
   </div>
 
   <!-- Footer -->
-   <footer>
+  <footer>
     <p>&copy; 2025 Consumer Services. All rights reserved.</p>
   </footer>
 
@@ -115,20 +115,38 @@
       document.getElementById('cardForm').classList.remove('d-none');
     }
 
+    // Format expiry date as MM/YY while typing
+    document.getElementById('expiryDate').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, ''); // Remove non-digit characters
+      if (value.length > 4) value = value.slice(0, 4);
+      if (value.length >= 3) {
+        e.target.value = value.slice(0, 2) + '/' + value.slice(2);
+      } else {
+        e.target.value = value;
+      }
+    });
+
+    // Form submit handler
     document.getElementById('cardDetailsForm').addEventListener('submit', function(e) {
       e.preventDefault();
+
+      const expiry = document.getElementById('expiryDate').value.trim();
+      if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry)) {
+        alert("Please enter a valid expiry date in MM/YY format.");
+        return;
+      }
 
       const txnId = "TXN" + Math.floor(Math.random() * 1000000);
       document.getElementById('txnId').textContent = txnId;
 
       const receipt = `
-        Transaction Receipt
-        ---------------------
-        Transaction ID: ${txnId}
-        Name: ${document.getElementById('cardHolder').value}
-        Amount Paid: ₹${document.getElementById('totalAmount').value}
-        Mode: ${document.getElementById('mode').value}
-        Date: ${new Date().toLocaleString()}
+Transaction Receipt
+---------------------
+Transaction ID: ${txnId}
+Name: ${document.getElementById('cardHolder').value}
+Amount Paid: ₹${document.getElementById('totalAmount').value}
+Mode: ${document.getElementById('mode').value}
+Date: ${new Date().toLocaleString()}
       `;
 
       const blob = new Blob([receipt], { type: 'text/plain' });
